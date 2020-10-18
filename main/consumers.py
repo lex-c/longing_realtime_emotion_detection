@@ -4,7 +4,7 @@ import os
 import io
 import base64
 import numpy as np
-import faces
+import main
 from channels.generic.websocket import WebsocketConsumer
 
 # image_url = None
