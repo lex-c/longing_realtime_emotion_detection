@@ -17,6 +17,21 @@ emotion = {'Type': 'NONE'}
 img = None
 
 
+def send_pics(socket, user_id):
+    global is_album_open, emotion, image_url
+    if image_url:
+        if emotion['Type'] in ['HAPPINESS', 'SAD', 'NOSTALGIA', 'LONGING']:
+            album_name = emotion['Type']
+            albums_if_new = views.save_photo_to_album(image_url, album_name, user_id)
+            if albums_if_new: socket.send(text_data=json.dumps({'message': ['new_album', albums_if_new]}))
+    image_url = views.bing_search()
+    if is_album_open:
+        socket.send(text_data=json.dumps({
+            'message': image_url
+        }))
+
+
+
 class CamConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
@@ -37,7 +52,7 @@ class CamConsumer(WebsocketConsumer):
             elif message[0] == 'send_pics':
                 user_id = message[1]
                 if is_album_open:
-                    self.send_pics(user_id)
+                    send_pics(self, user_id)
                     return
             elif message[0] == 'auth_detect':
                 print('auth')
@@ -74,16 +89,4 @@ class CamConsumer(WebsocketConsumer):
             print(f'in the receive no album open and no auth')
 
 
-    def send_pics(self, user_id):
-        global is_album_open, emotion, image_url
-        if image_url:
-            if emotion['Type'] in ['HAPPINESS', 'SAD', 'NOSTALGIA', 'LONGING']:
-                album_name = emotion['Type']
-                albums_if_new = views.save_photo_to_album(image_url, album_name, user_id)
-                if albums_if_new: self.send(text_data=json.dumps({'message': ['new_album', albums_if_new]}))
-        image_url = views.bing_search()
-        if is_album_open:
-            self.send(text_data=json.dumps({
-                'message': image_url
-            }))
 

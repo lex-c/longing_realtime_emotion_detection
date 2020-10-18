@@ -1,6 +1,6 @@
 from django.urls import path
-from . import consumers2
+from . import consumers
 
 websocket_urlpatterns = [
-    path('', consumers2.BlahConsumer)
+    path('', consumers.CamConsumer)
 ]
