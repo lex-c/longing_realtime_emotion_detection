@@ -1,9 +1,9 @@
-import json
+# import json
 from channels.generic.websocket import WebsocketConsumer
-import cv2
-import io
-import base64
-import numpy as np
+# import cv2
+# import io
+# import base64
+# import numpy as np
 # from . import views
 
 # smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
