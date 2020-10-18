@@ -4,7 +4,7 @@ import os
 import io
 import base64
 import numpy as np
-# from . import views
+import faces
 from channels.generic.websocket import WebsocketConsumer
 
 # image_url = None
@@ -19,7 +19,6 @@ from channels.generic.websocket import WebsocketConsumer
 
 class CamConsumer(WebsocketConsumer):
     # smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
-    import views
     image_url = None
     is_album_open = False
     in_auth = False
