@@ -1,25 +1,206 @@
 {% extends './base.html' %}
 {% block content %}
-    <h3>main page</h3>  
-    {% for blurb in blurbs %}
-    <h3>{{ blurb.description }}</h3>
-    {% empty %}
-    {% endfor %}  
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">ADD</button>
-    </form>
+<input type="hidden" name="userId" id="userId" value="{{ user.id }}" >
+<div class="cam-wrap">
+    <div id="camShowBtn" class="button usecam-btn">Use Cam</div>
+    <div class="cam">
+        <div id="container" class="flex-video">
+            <canvas id="canvasOut"></canvas>
+            <video id="vidDOM" autoplay playsinline controls="false">loading</video>
+        </div>
+        <div class="cam-choice">
+        <select name="camera-list" id="cameras-select"></select>
+        <button type="submit" class="button camtype-btn" id="camType">SET</button>
+        </div>
+    </div>
+</div>
+{% block auth %}
+{% endblock auth %}
+{% if user.is_authenticated %}
+<button class="album-btn button" id="albumBtn">ALBUMS</button>
+<div class="photo-disp">
+    <img id="pic" alt="">
+</div>
+{% endif %}
 {% endblock content %}
 {% block script %}
 <script>
-    const loc = window.location
-    const wsStart = loc.protocol === 'https:' ? 'wss://' : 'ws://'
-    const endpoint = wsStart + loc.host + '/wc/'
-    const CamSocket = new WebSocket(endpoint)
-    CamSocket.onmessage = function(e){
-        const message = JSON.parse(e.data).message
-        console.log(message)
+    let stream
+    let frame
+    let selected_album = null
+    let albumImageInterval = null
+    let sendCamSnapInterval
+    let isSignup = false
+    const albumsDOM = document.querySelector('.albums')
+    const userId = document.getElementById('userId').value
+    const imgDOM = document.getElementById('pic')
+    const camShowBtn = document.getElementById('camShowBtn')
+    const camDiv = document.querySelector('.cam')
+    const vidDOM = document.getElementById('vidDOM')
+    const selectDOM = document.getElementById('cameras-select')
+    const camWrap = document.querySelector('.cam-wrap')
+    const wsStart = window.location.protocol === 'https' ? 'wss://' : 'ws://'
+    const camSocket = new WebSocket(
+        wsStart
+        + window.location.host
+        + '/wc/cam/'
+    )
+    const sendImg = e => {
+        frame = capture(vidDOM, 1)
+        const data = frame.toDataURL('image/png')
+        b64 = data.split(',')[1]
+        camSocket.send(b64)
+    }
+    const startCam = () => {
+        camShowBtn.style.setProperty('display', 'none')
+        camShowBtn.removeEventListener('click', startCam)
+        camDiv.style.setProperty('display', 'initial')
+        const message = isSignup ? 'sign_up_pic' : 'auth_detect'
+        setDefaultCamVid()
+        setInterval(() => {
+            camSocket.send(JSON.stringify({'message': [message]}))
+        }, 3000)
+    }
+    if (userId === 'None') {
+        isSignup = !!document.getElementById('id_password1')
+        camDiv.style.setProperty('display', 'none')
+        camWrap.className = "cam-wrap auth-pg"
+        camShowBtn.addEventListener('click', startCam)
+        camShowBtn.style.setProperty('display', 'inherit')
+    } else {
+        camWrap.className = "cam-wrap"
+        setDefaultCamVid()
+    }
+
+    const closeAlbumToAdd = e => {
+        window.clearInterval(albumImageInterval)
+        if (e.target.id !== 'albumBtn') {
+            closeAlbumBackend()
+            imgDOM.style.setProperty('display', 'none')
+            return
+        }
+        e.target.className = "album-btn button"
+        e.target.removeEventListener('click', closeAlbumToAdd)
+        e.target.addEventListener('click', openAlbumToAdd)
+        closeAlbumBackend()
+        imgDOM.style.setProperty('display', 'none')
+    }
+
+    const openAlbumToAdd = e => {
+        window.clearInterval(albumImageInterval)
+        e.target.className = "album-btn open button"
+        e.target.removeEventListener('click', openAlbumToAdd)
+        e.target.addEventListener('click', closeAlbumToAdd)
+        requestImg()
+        imgDOM.style.setProperty('display', 'initial')
+    }
+
+    if (userId !== 'None') {
+        document.querySelector('.album-btn').addEventListener('click', openAlbumToAdd)
+        document.querySelectorAll('.album-nav').forEach(btn => btn.addEventListener('click', closeAlbumToAdd))
+    }
+    camSocket.onmessage = function(e) {
+        if (e.data.slice(0,1) === '{') {
+            const message = JSON.parse(e.data).message
+            if (message[0] === 'new_album') {
+                albumsDOM.innerHTML = ''
+                const currentAlbums = message[1]
+                for (let album of currentAlbums) {
+                    const li = document.createElement('li')
+                    const albumDOM = document.createElement('a')
+                    albumDOM.className = 'button'
+                    albumDOM.href = `/main/album_detail/${album}`
+                    albumDOM.innerText = album
+                    albumDOM.addEventListener('click', closeAlbumToAdd)
+                    albumsDOM.appendChild(li)
+                    li.appendChild(albumDOM)
+                }
+            } else if (message[0] === 'f_confirmed') {
+                const freshUserId = message[1]
+                window.location.href = `../../main/f_login/${freshUserId}`
+            } else if (message[0] === 'face_info') {
+                console.log('face info in the front', message[1])
+                document.getElementById('faceInfo').value = message[1]
+                console.log(document.getElementById('faceInfo').value)
+            } else {
+                imgDOM.src = message
+            }
+        } else {
+           //  console.log(e.data)
+           // resultPic.src = 'data:image/png;base64,' + e.data
+        }
+    }
+
+    camSocket.onclose = function (e) {
+        console.error('socket closedddddd')
+    }
+
+    document.getElementById('camType').addEventListener('click', async e => {
+        stream = await openCamera(selectDOM.value, 100, 100)
+        playCamVideo()
+    })
+
+    function requestImg() {
+        camSocket.send(JSON.stringify({'message': ['album_open']}))
+        camSocket.send(JSON.stringify({'message': ['send_pics', userId]}))
+        albumImageInterval = setInterval(() => camSocket.send(JSON.stringify({'message': ['send_pics', userId]})), 2001)
+    }
+
+    function closeAlbumBackend() {
+        camSocket.send(JSON.stringify({ 'message': ['close_album'] }))
+    }
+
+    function capture(video, scaleFactor) {
+        if (scaleFactor == null) {
+            scaleFactor = 1;
+        }
+        var w = video.videoWidth * scaleFactor;
+        var h = video.videoHeight * scaleFactor;
+        var canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, w, h);
+        return canvas;
+    }
+
+    async function getConnectedDevices(type) {
+        const devices = await navigator.mediaDevices.enumerateDevices()
+        return devices.filter(device => device.kind === type)
+    }
+    async function setCameraList() {
+        const cameras = await getConnectedDevices('videoinput')
+        const camList = document.getElementById('cameras-select')
+        camList.innerHTML = ''
+        cameras.map(cam => {
+            const camOption = document.createElement('option')
+            camOption.label = cam.label
+            camOption.value = cam.deviceId
+            return camOption
+        }).forEach(camOption => camList.add(camOption))
+        return cameras.map(cam => cam.deviceId)
+    }
+    async function openCamera(camId, minWidth, minHeight) {
+        const constraints = {
+            'video': {
+                'deviceId': camId,
+                'width': {'min': minWidth},
+                'height': {'min': minHeight}
+            }
+        }
+        return await navigator.mediaDevices.getUserMedia(constraints)
+    }
+    async function playCamVideo() {
+        try {
+            vidDOM.srcObject = stream
+            sendCamSnapInterval = setInterval(sendImg, 600)
+        } catch (err) {console.error('err opening cam', err)}
+    }
+    async function setDefaultCamVid() {
+        const camIds = await setCameraList()
+        stream = await openCamera(camIds[0], 100, 100)
+        playCamVideo()
     }
 </script>
 {% endblock script %}
+

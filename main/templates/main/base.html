@@ -1,11 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'main/Nostalgia-Sospensione-01.jpg' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation-float.min.css" integrity="sha256-4ldVyEvC86/kae2IBWw+eJrTiwNEbUUTmN0zkP4luL4=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation-prototype.min.css" integrity="sha256-BiKflOunI0SIxlTOOUCQ0HgwXrRrRwBkIYppEllPIok=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation-rtl.min.css" integrity="sha256-F+9Ns8Z/1ZISonBbojH743hsmF3x3AlQdJEeD8DhQsE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+    <title>C</title>
 </head>
 <body>
+    <nav class="hover-underline-menu" data-menu-underline-from-center>
+        <ul class="menu align-left">
+            {% if album %}
+            <li class="main-links"><a href="{% url 'main:index' %}">Home</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li class="main-links"><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li class="main-links"><a href="{% url 'login' %}">Login</a></li>
+            <li class="main-links"><a href="{% url 'main:signup' %}">Signup</a></li>
+            {% endif %}
+            <div class="albums">
+            {% for album in user.album_set.all %}
+                <li class="album-links"><a id="albumNav" class="album-nav" href="{% url 'main:album_detail' album.name %}">{{ album.name }}</a></li>
+            {% endfor %}
+            </div>
+            {% if user.is_authenticated %}
+            <li id="head-name-li"><h3 id="headNameA">{{ user.username }}</h3></li>
+            {% endif %}
+        </ul>
+    </nav>
     {% block content %}
     {% endblock content %}
     {% block script %}

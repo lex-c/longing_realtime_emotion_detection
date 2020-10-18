@@ -1,0 +1,9 @@
+{% extends '../main/index.html' %}
+{% block auth %}
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="button login-btn" type="submit">LOGIN</button>
+    <input type="hidden" name="next" value="{{ next }}">
+</form>
+{% endblock auth %}

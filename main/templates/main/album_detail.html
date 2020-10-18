@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+{% block content %}
+<div class="featured-image-block-grid">
+  <div class="featured-image-block-grid-header small-10 medium-8 large-7 columns text-center"></div>
+  <div class="row large-up-4 small-up-2">
+      {% for photo in album.photos.all %}
+    <div class="featured-image-block column">
+        <form action="{% url 'wc:remove_photo' album.id photo.id %}" method="post" class="remove-photo-form">
+              {% csrf_token %}
+              <input type="submit" class="button remove-photo-btn" value="X">
+        </form>
+        <img class="album-img" src="{{ photo.img_url }}" />
+    </div>
+      {% endfor %}
+  </div>
+</div>
+{% endblock content %}

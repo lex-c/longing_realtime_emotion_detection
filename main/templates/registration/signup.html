@@ -1,0 +1,18 @@
+{% extends '../main/index.html' %}
+{% block auth %}
+<form action="{% url 'main:signup' %}" method="post">
+    {% csrf_token %}
+    {{ form.username.label_tag }}
+    {{ form.username }}
+    {{ form.password1.label_tag }}
+    {{ form.password1 }}
+    {{ form.password2.label_tag }}
+    {{ form.password2 }}
+    <label>First Name</label>
+    <input type="text" name="first_name"/>
+    <label>Last Name</label>
+    <input type="text" name="last_name"/>
+    <input type="hidden" id="faceInfo" name="faceInfo">
+    <button class="button signup-btn" type="submit">SIGN UP</button>
+</form>
+{% endblock auth %}

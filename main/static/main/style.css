@@ -1,0 +1,204 @@
+html {
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    font-size: 62.5%;
+}
+
+body {
+    padding-top: 3rem;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-size: 3rem;
+    background-color: darkgray;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+#camShowBtn {
+    display: none;
+}
+.hover-underline-menu {
+  width: 100%;
+}
+
+.hover-underline-menu .menu {
+  background-color: #2C3840;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.hover-underline-menu .menu a {
+  color: antiquewhite;
+    font-weight: bold;
+    background-color: dimgray;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    border-radius: 2rem;
+}
+
+.hover-underline-menu .menu .underline-from-center {
+  position: relative;
+}
+
+.hover-underline-menu .menu .underline-from-center::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 0.125rem);
+  border-bottom: 0.125rem solid #fefefe;
+  left: 50%;
+  right: 50%;
+  transition: all 0.5s ease;
+}
+
+.hover-underline-menu .menu .underline-from-center:hover::after {
+  left: 0;
+  right: 0;
+  transition: all 0.5s ease;
+}
+
+.main-links {
+    height: 1rem;
+    padding: 0.2rem;
+    margin: 0.3rem;
+    margin-bottom: 2rem;
+}
+.main-links > a {
+    font-size: 1.5rem;
+    padding: 1rem;
+    vertical-align: middle;
+    line-height: 0;
+    margin: 0;
+}
+
+.album-links {
+    height: 2rem;
+    margin: 0.5rem;
+}
+
+#albumNav {
+    background-color: transparent;
+    font-size: 1.3rem;
+    padding: 1rem;
+    line-height: 0;
+    margin: 0;
+}
+
+.featured-image-block-grid-header {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.featured-image-block .featured-image-block-title {
+  font-weight: 600;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1em;
+  color: #404040;
+}
+
+.featured-image-block {
+  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.featured-image-block a:hover p {
+  color: #1779ba;
+}
+
+
+.remove-photo-btn {
+    position: absolute;
+    background-color: transparent;
+    color: white;
+    text-shadow: black 0 0 0.3rem;
+    font-size: 1.5rem;
+
+}
+
+.flex-video {
+    border: #071e22 0.5rem solid;
+    box-shadow: black 0 0 2rem;
+    border-radius: 1rem;
+    background-color: #071e22;
+    margin-bottom: 1rem;
+}
+
+.cam-wrap {
+    align-self: flex-end;
+    width: 35%;
+    max-width: 25rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+.cam-wrap.auth-pg {
+    align-self: center;
+    width: 50%;
+    max-width: 50rem;
+    margin: 1rem;
+}
+#camType, .login-btn, .signup-btn, .usecam-btn {
+    background-color: #071e22;
+}
+
+.photo-disp {
+    position: absolute;
+    bottom: 0;
+    margin: 0.5rem;
+    margin-bottom: 5rem;
+}
+#pic {
+    max-height: 50vh;
+    border-radius: 0.5rem;
+    border: black solid 0.2rem;
+}
+
+.cameras-select {
+}
+
+.cam-choice {
+    padding: 0;
+    display: flex;
+}
+
+.album-btn {
+    background-color: #555555;
+    position: absolute;
+    bottom: 30%;
+}
+.album-btn.open {
+    background-color: black;
+    bottom: 70%;
+    left: 15%;
+}
+
+.album-img {
+    margin: 0.5rem;
+    border-radius: 1rem;
+    box-shadow: black 0 0 1rem;
+    width: 100%;
+    height: auto;
+}
+
+#head-name-li {
+    height: 2rem;
+    margin: 0.5rem;
+}
+
+#headNameA {
+    color: #071e22;
+    background-color: transparent;
+    font-size: 1.3rem;
+    padding: 1rem;
+    line-height: 0;
+    margin: 0;
+}
