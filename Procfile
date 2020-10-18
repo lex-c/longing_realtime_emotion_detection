@@ -1,0 +1,1 @@
+web: gunicorn longing.wsgi:application
