@@ -15,7 +15,7 @@
 <script>
     const loc = window.location
     const wsStart = loc.protocol === 'https:' ? 'wss://' : 'ws://'
-    const endpoint = wsStart + loc.host + 'wc/'
+    const endpoint = wsStart + loc.host + '/wc/'
     const CamSocket = new WebSocket(endpoint)
     CamSocket.onmessage = function(e){
         const message = JSON.parse(e.data).message
