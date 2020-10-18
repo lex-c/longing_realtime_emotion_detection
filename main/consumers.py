@@ -1,10 +1,10 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 # import cv2
-from bin import io
+# import io
 # import base64
 # import numpy as np
-from .main import views
+from ..main import views
 
 
 
