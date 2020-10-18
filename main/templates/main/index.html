@@ -1,0 +1,8 @@
+{% extends './base.html' %}
+{% block content %}
+    <h3>main page</h3>  
+    {% for blurb in blurbs %}
+    <h3>{{ blurb.description }}</h3>
+    {% empty %}
+    {% endfor %}  
+{% endblock content %}
