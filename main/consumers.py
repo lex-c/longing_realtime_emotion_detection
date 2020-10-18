@@ -1,6 +1,6 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
-import cv2
+import cv2 as cv2
 import io
 import base64
 import numpy as np
