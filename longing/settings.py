@@ -75,16 +75,7 @@ LOGOUT_REDIRECT_URL = 'login'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dfnqag6umoe4ui',
-        'USER': 'fxgfirbrcopgxr',
-        'PASSWORD': 'e95db29ada7fadf36efa6b7e3487b5127280138e91e9a60070fcb5b72f83eb54',
-        'HOST': 'ec2-3-214-46-194.compute-1.amazonaws.com',
-        'PORT': '5432'
-    }
-}
+
 
 
 # Password validation
@@ -128,5 +119,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'main', 'static'),
 )
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
 
