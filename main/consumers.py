@@ -54,7 +54,7 @@ class CamConsumer(WebsocketConsumer):
                 is_not_first = bool(self.in_auth)
                 self.in_auth = True
                 if is_not_first:
-                    isAuthed = views.search_face(self, img)
+                    isAuthed = views.search_face(self, self.img)
                     if isAuthed: self.in_auth = False
                 return
             elif self.message[0] == 'sign_up_pic':
@@ -62,7 +62,7 @@ class CamConsumer(WebsocketConsumer):
                 self.in_auth = True
                 if not self.face_added:
                     if self.signup_count == 2:
-                        face_info = views.add_face(img)
+                        face_info = views.add_face(self.img)
                         if face_info:
                             self.face_added = True
                             self.send(text_data=json.dumps({ 'message': ['face_info', face_info] }))
@@ -77,7 +77,7 @@ class CamConsumer(WebsocketConsumer):
                 # cv2.imwrite('image.png', img)
                 self.img = io.BytesIO(img_buf).read()
                 if self.is_album_open:
-                    self.emotion = views.get_emotion_expression(img)
+                    self.emotion = views.get_emotion_expression(self.img)
                     if not self.emotion:
                         self.emotion = { 'Type': 'None' }
         else:
@@ -88,7 +88,7 @@ class CamConsumer(WebsocketConsumer):
         if self.image_url:
             if self.emotion['Type'] in ['HAPPINESS', 'SAD', 'NOSTALGIA', 'LONGING']:
                 album_name = self.emotion['Type']
-                albums_if_new = views.save_photo_to_album(image_url, album_name, user_id)
+                albums_if_new = views.save_photo_to_album(self.image_url, album_name, user_id)
                 if albums_if_new: self.send(text_data=json.dumps({'message': ['new_album', albums_if_new]}))
         self.image_url = views.bing_search()
         if self.is_album_open:
