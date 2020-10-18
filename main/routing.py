@@ -2,5 +2,5 @@ from django.urls import path
 from . import consumers
 
 websocket_urlpatterns = [
-    path('', consumers.CamConsumer)
+    path('wc/cam/', consumers.CamConsumer)
 ]

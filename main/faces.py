@@ -4,6 +4,8 @@ import pprint
 import random
 import string
 
+
+
 def aws_detect(img):
     client = boto3.client('rekognition', region_name='us-east-1')
     img_bytes = img.read()
@@ -75,7 +77,6 @@ def search_face_in_faces(img):
     else:
         if list(response['FaceMatches']):
             return [response['FaceMatches'][0]['Face']['ExternalImageId'], response['FaceMatches'][0]['Face']['FaceId']]
-
 
 def aws_delete_faces(faceIds):
     if __name__ == '__main__':
