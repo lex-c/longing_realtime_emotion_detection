@@ -47,7 +47,7 @@ class CamConsumer(WebsocketConsumer):
             elif self.message[0] == 'send_pics':
                 user_id = self.message[1]
                 if self.is_album_open:
-                    self.send_pics(self, user_id)
+                    self.send_pics(user_id)
                     return
             elif self.message[0] == 'auth_detect':
                 print('auth')
