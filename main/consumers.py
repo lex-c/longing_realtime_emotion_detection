@@ -4,7 +4,7 @@ import io
 import base64
 import numpy as np
 from channels.generic.websocket import WebsocketConsumer
-# from longing.main import views
+from ..main import views
 
 
 
