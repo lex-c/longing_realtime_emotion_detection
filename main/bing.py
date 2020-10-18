@@ -1,13 +1,10 @@
-import environ
+import os
 import requests
 import json
 offset = 100
 offset_str = str(offset)
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-environ.Env.read_env()
-api_key = env('BING_API_KEY')
+
+api_key = os.environ.get('BING_API_KEY')
 
 url = "https://bing-image-search1.p.rapidapi.com/images/search"
 trending_url = "https://bing-image-search1.p.rapidapi.com/images/trending"
