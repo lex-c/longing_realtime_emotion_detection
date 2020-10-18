@@ -4,7 +4,7 @@ import os
 import io
 import base64
 import numpy as np
-import main
+import main.views as views
 from channels.generic.websocket import WebsocketConsumer
 
 # image_url = None
