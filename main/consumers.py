@@ -17,7 +17,7 @@ emotion = {'Type': 'NONE'}
 img = None
 
 
-class camConsumer(WebsocketConsumer):
+class CamConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
 
