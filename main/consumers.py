@@ -7,19 +7,26 @@ import numpy as np
 # from . import views
 from channels.generic.websocket import WebsocketConsumer
 
-
+image_url = None
+is_album_open = False
+in_auth = False
+message = None
+face_added = False
+signup_count = 0
+emotion = {'Type': 'NONE'}
+img = None
 
 
 class CamConsumer(WebsocketConsumer):
     # smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
-    image_url = None
-    is_album_open = False
-    in_auth = False
-    message = None
-    face_added = False
-    signup_count = 0
-    emotion = {'Type': 'NONE'}
-    img = None
+    # image_url = None
+    # is_album_open = False
+    # in_auth = False
+    # message = None
+    # face_added = False
+    # signup_count = 0
+    # emotion = {'Type': 'NONE'}
+    # img = None
 
     def connect(self):
         self.accept()
@@ -28,7 +35,7 @@ class CamConsumer(WebsocketConsumer):
         pass
 
     def receive(self, text_data):
-        # global is_album_open, message, in_auth, emotion, face_added, signup_count, img
+        global is_album_open, message, in_auth, emotion, face_added, signup_count, img
         if text_data[0:1] == '{':
             message = json.loads(text_data)['message']
             print(message[0])
@@ -77,7 +84,7 @@ class CamConsumer(WebsocketConsumer):
             print(f'in the receive no album open and no auth')
 
     def send_pics(socket, user_id):
-    # global is_album_open, emotion, image_url
+    global is_album_open, emotion, image_url
         if image_url:
             if emotion['Type'] in ['HAPPINESS', 'SAD', 'NOSTALGIA', 'LONGING']:
                 album_name = emotion['Type']
