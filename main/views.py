@@ -10,7 +10,7 @@ import json
 
 photo_cache = []
 wait_cap = 0
-Create your views here.
+# Create your views here.
 
 @login_required(login_url='../../accounts/login/')
 def index(request):
