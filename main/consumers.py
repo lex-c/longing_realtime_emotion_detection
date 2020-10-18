@@ -4,7 +4,7 @@ from channels.generic.websocket import WebsocketConsumer
 # import io
 # import base64
 # import numpy as np
-from . import views
+from main import views
 
 
 
