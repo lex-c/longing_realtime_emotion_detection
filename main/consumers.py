@@ -8,12 +8,12 @@ class CamConsumer(WebsocketConsumer):
             'message': 'something'
          }))
     
-    def disconnect(self, text_data):
+    def disconnect(self, code):
         pass
-    
-    def receive(self, data):
-       text_json = json.loads(data)
-       message = data['message']
+
+    def receive(self, text_data):
+       text_json = json.loads(text_data)
+       message = text_json['message']
        print(message)
     
 
