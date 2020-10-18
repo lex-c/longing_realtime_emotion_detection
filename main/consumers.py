@@ -3,6 +3,7 @@ import json
 import os
 import io
 import base64
+from PIL import Image
 import numpy as np
 import main.views as views
 from channels.generic.websocket import WebsocketConsumer
@@ -75,7 +76,7 @@ class CamConsumer(WebsocketConsumer):
             nparr = np.frombuffer(img_buf, dtype=np.uint8)
             if len(nparr) > 0:
                 # cv2.imwrite('image.png', img)
-                self.img = io.BytesIO(img_buf).decode('utf-8')
+                self.img = io.BytesIO(img_buf).getvalue()
                 if self.is_album_open:
                     self.emotion = views.get_emotion_expression(self.img)
                     if not self.emotion:
@@ -86,8 +87,9 @@ class CamConsumer(WebsocketConsumer):
     def send_pics(self, user_id):
     # global is_album_open, emotion, image_url
         if self.image_url:
-            if self.emotion['Type'] in ['HAPPINESS', 'SAD', 'NOSTALGIA', 'LONGING']:
+            if self.emotion['Type'] in ['HAPPY', 'SAD', 'NOSTALGIA', 'LONGING']:
                 album_name = self.emotion['Type']
+                if self.emotion['Type'] == 'HAPPY': album_name = 'HAPPINESS'
                 albums_if_new = views.save_photo_to_album(self.image_url, album_name, user_id)
                 if albums_if_new: self.send(text_data=json.dumps({'message': ['new_album', albums_if_new]}))
         self.image_url = views.bing_search()

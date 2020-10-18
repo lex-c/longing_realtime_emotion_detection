@@ -8,7 +8,7 @@ import string
 
 def aws_detect(img):
     client = boto3.client('rekognition', region_name='us-east-1')
-    img_bytes = img.read()
+    img_bytes = img
     response = client.detect_faces(
         Attributes= ["ALL"],
         Image={ 'Bytes': img_bytes }
