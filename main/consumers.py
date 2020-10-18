@@ -2,7 +2,7 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 # import cv2
 # import io
-# import base64
+import base64
 import numpy as np
 # from longing.main import views
 
