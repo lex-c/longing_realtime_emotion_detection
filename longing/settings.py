@@ -25,7 +25,7 @@ SECRET_KEY = 'bzt1!^_1m-*^$4xzv#jn1mdsa+vmy$qeikr%e%qua%c5$a&xm&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'http://longing-feelings.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'https://longing-feelings.herokuapp.com']
 
 
 # Application definition
