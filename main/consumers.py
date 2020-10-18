@@ -4,9 +4,8 @@ import os
 import io
 import base64
 import numpy as np
-from os.path.dirname(os.path.realpath(__file__)).rsplit('/', 1)[1] import views
+from . import views
 from channels.generic.websocket import WebsocketConsumer
-
 
 
 

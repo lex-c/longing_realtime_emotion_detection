@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from .models import Photo, Album, FaceToUser
 from .bing import search
 from . import faces
-import json
+
 
 photo_cache = []
 wait_cap = 0
