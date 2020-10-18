@@ -116,7 +116,10 @@ def get_emotion_expression(img):
             print(map_emotions)
         if emotions_if_face[0]['Confidence'] >= 95:
             return emotions_if_face[0]
-        elif int(map_emotions['CALM']) >= 50 and int(map_emotions['HAPPY']) >= 5 and int(map_emotions['SAD']) >= 5:
+        elif float(map_emotions['CALM']) >= 40.0 and (float(map_emotions['CONFUSED']) + float(map_emotions['SURPRISED']) >= 17):
+            print('LUST', map_emotions)
+            return { 'Type': 'LUST', 'Confidence': 99 }
+        elif int(map_emotions['CALM']) >= 50 and float(map_emotions['HAPPY']) >= 5 and float(map_emotions['SAD']) >= 5:
             print('NOSTALGIA', map_emotions)
             return { 'Type': 'NOSTALGIA', 'Confidence': 99 }
         elif int(map_emotions['CALM']) >= 35 and int(map_emotions['SAD']) >= 30:
