@@ -39,7 +39,7 @@
     const vidDOM = document.getElementById('vidDOM')
     const selectDOM = document.getElementById('cameras-select')
     const camWrap = document.querySelector('.cam-wrap')
-    const wsStart = window.location.protocol === 'https' ? 'wss://' : 'ws://'
+    const wsStart = window.location.protocol.toString() === 'https' ? 'wss://' : 'ws://'
     const camSocket = new WebSocket(
         wsStart
         + window.location.host
