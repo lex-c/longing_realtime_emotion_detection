@@ -40,7 +40,7 @@ class CamConsumer(WebsocketConsumer):
         pass
 
     def receive(self, text_data):
-        global is_album_open, message, in_auth, emotion, face_added, signup_count, img
+        # global is_album_open, message, in_auth, emotion, face_added, signup_count, img
         if text_data[0:1] == '{':
             message = json.loads(text_data)['message']
             print(message[0])
