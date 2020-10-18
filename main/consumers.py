@@ -6,7 +6,7 @@ import base64
 import numpy as np
 from . import views
 
-# smile_cascade = cv2.CascadeClassifier('wc/static/wc/haarcascade_smile.xml')
+smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
 image_url = None
 is_album_open = False
 in_auth = False
@@ -86,3 +86,4 @@ class CamConsumer(WebsocketConsumer):
             self.send(text_data=json.dumps({
                 'message': image_url
             }))
+
