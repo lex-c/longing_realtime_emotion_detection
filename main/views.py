@@ -7,6 +7,7 @@ from .models import Photo, Album, FaceToUser
 from .bing import search
 from . import faces
 import json
+from asgiref.sync import sync_to_async
 
 photo_cache = []
 wait_cap = 0
@@ -16,6 +17,7 @@ wait_cap = 0
 def index(request):
     return render(request, 'main/index.html', {'user': request.user, 'user_albums': list(request.user.album_set.values_list('name', flat=True))})
 
+@sync_to_async
 def save_photo_to_album(image_url, album_name, user_id):
     print(f'in the save photo with album {album_name}, and user_id {user_id}')
     is_new_album = False
@@ -57,6 +59,7 @@ def remove_photo(request, album_id, photo_id):
         album.delete()
         return redirect('main:index')
 
+@sync_to_async
 def add_face(img):
     face_info_if_exists = faces.search_face_in_faces(img)
     print('face_info from add_face search', face_info_if_exists)
@@ -68,16 +71,18 @@ def add_face(img):
         print('added face with info', face_info)
         return face_info
 
-def search_face(Socket, img):
+@sync_to_async
+def search_face(img):
     face_info_if_found = faces.search_face_in_faces(img)
     print('face_info_from_search_auth', face_info_if_found)
     if face_info_if_found:
+        print('in the found')
         if FaceToUser.objects.filter(FaceId=face_info_if_found[1]).count() > 0:
+            print('in the Face to user found')
             face_user = list(FaceToUser.objects.filter(FaceId=face_info_if_found[1]))[0]
             username = list(face_user.user.all())[0].username
             user = User.objects.get(username=username)
-            Socket.send(text_data=json.dumps({ 'message': ['f_confirmed', user.id] }))
-            return True
+            return user.id
         else: return None
 
 def check_face_login(user):
@@ -101,6 +106,7 @@ def bing_search():
     photo_cache.pop(0)
     return photo_cache[0]
 
+@sync_to_async
 def get_emotion_expression(img):
     emotions_if_face = faces.aws_detect(img)
     if emotions_if_face:
@@ -108,15 +114,15 @@ def get_emotion_expression(img):
         for emotion in emotions_if_face:
             map_emotions[emotion['Type']] = emotion['Confidence']
             print(map_emotions)
-        if emotions_if_face[0]['Confidence'] >= 90:
+        if emotions_if_face[0]['Confidence'] >= 95:
             return emotions_if_face[0]
-        elif int(map_emotions['CALM']) >= 35 and int(map_emotions['SAD']) >= 30:
-            print('LONGING', map_emotions)
-            return { 'Type': 'LONGING', 'Confidence': 99 }
         elif int(map_emotions['CALM']) >= 50 and int(map_emotions['HAPPY']) >= 5 and int(map_emotions['SAD']) >= 5:
             print('NOSTALGIA', map_emotions)
             return { 'Type': 'NOSTALGIA', 'Confidence': 99 }
-        elif emotions_if_face[0]['Confidence'] >= 40: return emotions_if_face[0]
+        elif int(map_emotions['CALM']) >= 35 and int(map_emotions['SAD']) >= 30:
+            print('LONGING', map_emotions)
+            return { 'Type': 'LONGING', 'Confidence': 99 }
+        elif emotions_if_face[0]['Confidence'] >= 60: return emotions_if_face[0]
         else: return None
     else: return None
 

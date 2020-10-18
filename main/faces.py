@@ -60,6 +60,7 @@ def add_faces_to_collection(img):
             print('in the faces', external_image_id, face_id)
             return [external_image_id, face_id]
 
+
 def search_face_in_faces(img):
     client = boto3.client('rekognition', region_name='us-east-1')
     img_bytes = img

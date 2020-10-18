@@ -78,6 +78,10 @@ body {
     margin: 0;
 }
 
+.albums {
+    display: flex;
+}
+
 .album-links {
     height: 2rem;
     margin: 0.5rem;
