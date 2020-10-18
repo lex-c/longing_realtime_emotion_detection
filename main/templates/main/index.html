@@ -14,6 +14,7 @@
         </div>
     </div>
 </div>
+<h3 id="emotion"></h3>
 {% block auth %}
 {% endblock auth %}
 {% if user.is_authenticated %}
@@ -121,7 +122,8 @@
             } else if (message[0] === 'face_info') {
                 console.log('face info in the front', message[1])
                 document.getElementById('faceInfo').value = message[1]
-                console.log(document.getElementById('faceInfo').value)
+            } else if (message[0] === 'emotion') {
+                document.getElementById('emotion').innerHTML = message[1]
             } else {
                 imgDOM.src = message
             }

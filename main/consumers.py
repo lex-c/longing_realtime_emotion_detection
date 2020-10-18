@@ -81,6 +81,7 @@ class CamConsumer(WebsocketConsumer):
                     self.emotion = views.get_emotion_expression(self.img)
                     if not self.emotion:
                         self.emotion = { 'Type': 'None' }
+                    self.send(text_data=json.dumps({ 'message': ['emotion', self.emotion['Type']] }))
         else:
             print(f'in the receive no album open and no auth')
 
