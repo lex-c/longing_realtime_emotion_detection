@@ -6,15 +6,15 @@ from channels.generic.websocket import WebsocketConsumer
 # import numpy as np
 # from . import views
 
-# smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
-# image_url = None
-# is_album_open = False
-# in_auth = False
-# message = None
-# face_added = False
-# signup_count = 0
-# emotion = {'Type': 'NONE'}
-# img = None
+smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
+image_url = None
+is_album_open = False
+in_auth = False
+message = None
+face_added = False
+signup_count = 0
+emotion = {'Type': 'NONE'}
+img = None
 
 
 # def send_pics(socket, user_id):
