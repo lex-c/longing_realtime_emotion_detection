@@ -4,8 +4,8 @@ import os
 import io
 import base64
 import numpy as np
+from . import views as views
 from channels.generic.websocket import WebsocketConsumer
-print(os.path.dirname(os.path.realpath(__file__)))
 
 
 
