@@ -107,16 +107,16 @@ def get_emotion_expression(img):
         map_emotions = {  }
         for emotion in emotions_if_face:
             map_emotions[emotion['Type']] = emotion['Confidence']
-            print(map_emotions)
-        if emotions_if_face[0]['Confidence'] >= 90:
+        if emotions_if_face[0]['Confidence'] >= 92:
             return emotions_if_face[0]
-        elif int(map_emotions['CALM']) >= 35 and int(map_emotions['SAD']) >= 30:
-            print('LONGING', map_emotions)
-            return { 'Type': 'LONGING', 'Confidence': 99 }
         elif int(map_emotions['CALM']) >= 50 and int(map_emotions['HAPPY']) >= 5 and int(map_emotions['SAD']) >= 5:
             print('NOSTALGIA', map_emotions)
             return { 'Type': 'NOSTALGIA', 'Confidence': 99 }
-        elif emotions_if_face[0]['Confidence'] >= 40: return emotions_if_face[0]
+        elif int(map_emotions['CALM']) >= 35 and int(map_emotions['SAD']) >= 30:
+            print('LONGING', map_emotions)
+            return { 'Type': 'LONGING', 'Confidence': 99 }
+        elif emotions_if_face[0]['Type'] == 'CALM' and emotions_if_face[1]['Confidence'] >= 30: return emotions_if_face[1]
+        elif emotions_if_face[0]['Confidence'] >= 60: return emotions_if_face[0]
         else: return None
     else: return None
 

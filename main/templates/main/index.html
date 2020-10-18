@@ -75,15 +75,14 @@
 
     const closeAlbumToAdd = e => {
         window.clearInterval(albumImageInterval)
-        if (e.target.id !== 'albumBtn') {
-            closeAlbumBackend()
-            imgDOM.style.setProperty('display', 'none')
+        closeAlbumBackend()
+        if (e.target.id === 'albumNav') {
+            document.querySelectorAll('.album-nav').forEach(nav => nav.removeEventListener('click', closeAlbumToAdd))
             return
         }
         e.target.className = "album-btn button"
         e.target.removeEventListener('click', closeAlbumToAdd)
         e.target.addEventListener('click', openAlbumToAdd)
-        closeAlbumBackend()
         imgDOM.style.setProperty('display', 'none')
     }
 
@@ -108,8 +107,10 @@
                 const currentAlbums = message[1]
                 for (let album of currentAlbums) {
                     const li = document.createElement('li')
+                    li.className = 'album-links'
                     const albumDOM = document.createElement('a')
-                    albumDOM.className = 'button'
+                    albumDOM.className = 'album-nav'
+                    albumDOM.id = 'albumNav'
                     albumDOM.href = `/main/album_detail/${album}`
                     albumDOM.innerText = album
                     albumDOM.addEventListener('click', closeAlbumToAdd)
