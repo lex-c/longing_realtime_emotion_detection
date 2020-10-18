@@ -75,7 +75,7 @@ class CamConsumer(WebsocketConsumer):
             nparr = np.frombuffer(img_buf, dtype=np.uint8)
             if len(nparr) > 0:
                 # cv2.imwrite('image.png', img)
-                self.img = io.BytesIO(img_buf).read()
+                self.img = io.BytesIO(img_buf).decode('utf-8')
                 if self.is_album_open:
                     self.emotion = views.get_emotion_expression(self.img)
                     if not self.emotion:
