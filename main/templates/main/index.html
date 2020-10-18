@@ -5,4 +5,9 @@
     <h3>{{ blurb.description }}</h3>
     {% empty %}
     {% endfor %}  
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">ADD</button>
+    </form>
 {% endblock content %}

@@ -9,4 +9,5 @@ def index(request):
         new_blurb.save()
         return redirect('main:index')
     blurbs = get_list_or_404(Blurb)
-    return render(request, 'main/index.html', {'blurbs': blurbs})
+    form = BlurbForm()
+    return render(request, 'main/index.html', {'blurbs': blurbs, 'form': form})
