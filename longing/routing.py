@@ -1,7 +1,7 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
-import wc
+import longing.wc
 
 application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
