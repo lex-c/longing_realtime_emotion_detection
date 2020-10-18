@@ -4,7 +4,7 @@ import cv2
 import io
 import base64
 import numpy as np
-from . import views
+# from . import views
 
 # smile_cascade = cv2.CascadeClassifier('main/static/main/haarcascade_smile.xml')
 # image_url = None
