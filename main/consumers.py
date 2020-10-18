@@ -3,8 +3,8 @@ import json
 import io
 import base64
 import numpy as np
+import views as views
 from channels.generic.websocket import WebsocketConsumer
-from ..main import views
 
 
 
