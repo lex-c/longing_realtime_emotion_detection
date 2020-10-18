@@ -71,7 +71,7 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = 'longing.wsgi.application'
 ASGI_APPLICATION = 'longing.routing.application'
-
+LOGOUT_REDIRECT_URL = 'login'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
