@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'main',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -68,8 +69,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'longing.wsgi.application'
-
+# WSGI_APPLICATION = 'longing.wsgi.application'
+ASGI_APPLICATION = 'longing.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

@@ -1,1 +1,1 @@
-web: gunicorn longing.wsgi:application
+web: daphne -b 0.0.0.0 -p $PORT longing.asgi:application

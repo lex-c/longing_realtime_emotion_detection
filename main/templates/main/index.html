@@ -11,3 +11,15 @@
         <button type="submit">ADD</button>
     </form>
 {% endblock content %}
+{% block script %}
+<script>
+    const loc = window.location
+    const wsStart = loc.protocol === 'https:' ? 'wss://' : 'ws://'
+    const endpoint = wsStart + loc.host
+    const CamSocket = new WebSocket(endpoint)
+    CamSocket.onmessage = function(e){
+        const message = JSON.parse(e.data).message
+        console.log(message)
+    }
+</script>
+{% endblock script %}
