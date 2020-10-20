@@ -14,7 +14,7 @@
         </div>
     </div>
 </div>
-<h3 id="emotion"></h3>
+<h3 id="emotion">s</h3>
 {% block auth %}
 {% endblock auth %}
 {% if user.is_authenticated %}
@@ -56,6 +56,7 @@
         camShowBtn.style.setProperty('display', 'none')
         camShowBtn.removeEventListener('click', startCam)
         camDiv.style.setProperty('display', 'initial')
+        if (isSignup) document.querySelector('.signup-btn').style.setProperty('display', 'none')
         const message = isSignup ? 'sign_up_pic' : 'auth_detect'
         setDefaultCamVid()
         setInterval(() => {
@@ -97,7 +98,7 @@
 
     if (userId !== 'None') {
         document.querySelector('.album-btn').addEventListener('click', openAlbumToAdd)
-        document.querySelectorAll('.album-nav').forEach(btn => btn.addEventListener('click', closeAlbumToAdd))
+        document.querySelectorAll('.album-nav').forEach(nav => nav.addEventListener('click', closeAlbumToAdd))
     }
     camSocket.onmessage = function(e) {
         if (e.data.slice(0,1) === '{') {
@@ -123,8 +124,9 @@
             } else if (info['face_info']) {
                 console.log('face info in the front', info.face_info)
                 document.getElementById('faceInfo').value = info.face_info
+                document.querySelector('.signup-btn').style.setProperty('display', 'initial')
             } else if (info['emotion']) {
-                document.getElementById('emotion').innerHTML = info.emotion
+                    document.getElementById('emotion').innerHTML = info['emotion']
             } 
         } else {
             imgDOM.src = e.data
@@ -193,7 +195,7 @@
     async function playCamVideo() {
         try {
             vidDOM.srcObject = stream
-            sendCamSnapInterval = setInterval(sendImg, 300)
+            sendCamSnapInterval = setInterval(sendImg, 500)
         } catch (err) {console.error('err opening cam', err)}
     }
     async function setDefaultCamVid() {

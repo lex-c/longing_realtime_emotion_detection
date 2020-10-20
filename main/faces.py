@@ -40,6 +40,8 @@ def add_faces_to_collection(img):
     random_str = ''.join(random.choice(string.ascii_letters) for i in range(8))
     client = boto3.client('rekognition', region_name='us-east-1')
     img_bytes = img
+    # with open('main/sei727/Gabriela.png', 'rb') as img_b:
+    #     img_bytes = img_b.read()
     try:
         response = client.index_faces(
             CollectionId="sei727",
@@ -64,6 +66,8 @@ def add_faces_to_collection(img):
 def search_face_in_faces(img):
     client = boto3.client('rekognition', region_name='us-east-1')
     img_bytes = img
+    # with open('main/sei727/Gabriela.png', 'rb') as img_b:
+    #     img_bytes = img_b.read()
     try:
         response = client.search_faces_by_image(
             CollectionId="sei727",
@@ -95,4 +99,4 @@ def aws_list_faces():
         CollectionId="sei727",
         MaxResults=30
     )
-    print(response)
+    pprint.pprint(list(map(lambda face: face['FaceId'], list(response['Faces']))))
