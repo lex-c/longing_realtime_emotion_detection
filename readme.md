@@ -11,10 +11,10 @@ Features:
 * Emotion recognition
 * Auto addition of photos/creation of user albums
 
-ERD:
+<!-- ERD:
 ![ERD](rd_images/IMG_2628.jpg)
 Wireframes:
-![wireframe](rd_images/IMG_2630.jpg)
+![wireframe](rd_images/IMG_2630.jpg) -->
 Screenshots:
 ![login](rd_images/login.png)
 ![album_open](rd_images/albums_open.png)
@@ -33,7 +33,7 @@ Screenshots:
 - aws
 - Foundation CSS
 
-[mysite](https://longing-feelings.herokuapp.com)
+[Emotion Detector Site](https://longing-feelings.herokuapp.com)
 
 
 
